@@ -1,4 +1,4 @@
-﻿﻿#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <algorithm>
 using namespace std;
@@ -128,6 +128,7 @@ State::State( const char* stageData, int size ){
 			mGoalFlags( x, y ) = false; //非终点
 		}
 	}
+    //通过读取文件中的场景信息，修改初始场景信息
 	int x = 0;
 	int y = 0;
 	for ( int i = 0; i < size; ++i ){
@@ -151,7 +152,7 @@ State::State( const char* stageData, int size ){
 		}
 	}
 }
-
+//通过遍历找到区域的长和宽
 void State::setSize( const char* stageData, int size ){
 	mWidth = mHeight = 0; //初始化
 	//当前位置
@@ -185,6 +186,7 @@ void State::draw() const {
 					case OBJ_WALL: cout << '#'; break;
 					case OBJ_BLOCK: cout << 'O'; break;
 					case OBJ_MAN: cout << 'P'; break;
+                    default: break;
 				}
 			}else{
 				switch ( o ){
@@ -192,6 +194,7 @@ void State::draw() const {
 					case OBJ_WALL: cout << '#'; break;
 					case OBJ_BLOCK: cout << 'o'; break;
 					case OBJ_MAN: cout << 'p'; break;
+                    default: break;
 				}
 			}
 		}
@@ -262,6 +265,7 @@ bool State::hasCleared() const {
 	for ( int y = 0; y < mHeight; ++y ){
 		for ( int x = 0; x < mWidth; ++x ){
 			if ( mObjects( x, y ) == OBJ_BLOCK ){
+                //全部的block一定要在flag上才能通关
 				if ( mGoalFlags( x, y ) == false ){
 					return false;
 				}
